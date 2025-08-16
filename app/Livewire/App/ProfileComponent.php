@@ -112,6 +112,6 @@ class ProfileComponent extends Component
 
         $item = auth()->user();
 
-        return view('livewire.app.profile-component', compact('item'));
+        return view('livewire.app.profile-component', compact('item'))->layout('components.layouts.web');
     }
 }

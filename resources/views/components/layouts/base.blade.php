@@ -22,26 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.8/push.min.js" integrity="sha512-eiqtDDb4GUVCSqOSOTz/s/eiU4B31GrdSb17aPAA4Lv/Cjc8o+hnDvuNkgXhSI5yHuDvYkuojMaQmrB5JB31XQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @laravelPWA
-        <style>
-            .trix-content p,
-            .trix-content h1,
-            .trix-content h2,
-            .trix-content h3,
-            .trix-content a,
-            .trix-content ul,
-            .trix-content ol {
-                @apply text-gray-800 dark:text-gray-100;
-            }
 
-            .trix-content a {
-                @apply text-blue-600 dark:text-blue-400;
-            }
-
-            .trix-content blockquote {
-                @apply bg-gray-100 dark:bg-gray-800;
-                @apply border-l-4 border-gray-300 dark:border-gray-600;
-            }
-        </style>
     <script>
 
         const setup = () => {

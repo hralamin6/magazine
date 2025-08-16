@@ -42,7 +42,7 @@ class LoginComponent extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 //        return $this->redirect(url()->previous(), navigate:true);
-        return redirect()->intended(route('app.dashboard'));
+        return redirect()->route('web.home');
     }
 
     /**

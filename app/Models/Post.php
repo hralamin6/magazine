@@ -12,19 +12,36 @@ class Post extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
-//    public function comments()
-//    {
-//        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
-//    }
+    public function likedUsers()
+    {
+        return $this->belongsToMany(User::class, 'post_users')->withTimestamps();
+    }
+
+    public function isLikedBy(?User $user): bool
+    {
+        if (!$user) return false;
+        return $this->likedUsers()->where('user_id', $user->id)->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
+    }
+
+    public function topLevelComments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id')->latest();
+    }
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('postImages')->registerMediaConversions(function (Media $media = null) {
-            $this->addMediaConversion('thumb')->quality('10')->nonQueued();
+        $this->addMediaCollection('postImages')->singleFile()->registerMediaConversions(function (Media $media = null) {
+            $this->addMediaConversion('avatar')->quality('100')->nonQueued();
 
         });
+
         $this->addMediaCollection('post')->singleFile()->registerMediaConversions(function (Media $media = null) {
             $this->addMediaConversion('thumb')->quality('10')->nonQueued();
 
@@ -34,6 +51,11 @@ class Post extends Model implements HasMedia
         'tags' => 'array',  // Cast tags field to array
         'published_at' => 'datetime',
     ];
+
+    public function published()
+    {
+        return $this->status === 'published' && $this->published_at <= now();
+    }
 
     // Relationship with Category
     public function category()
@@ -45,6 +67,12 @@ class Post extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Relationship with Tag (many-to-many)
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_posts')->withTimestamps();
     }
 
     // Scopes for published posts

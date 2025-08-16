@@ -47,6 +47,14 @@ if (!function_exists('getErrorImage')) {
 
     }
 }
+if (!function_exists('getWebErrorImage')) {
+    function getWebErrorImage($defaultUrl = 'https://placehold.co/400')
+    {
+        $placeholderUrl = setup('placeHolder') != '' ? setup('placeHolder') : $defaultUrl;
+        return "this.onerror=null; this.src='{$placeholderUrl}';";
+
+    }
+}
 if (!function_exists('getErrorProfile')) {
 
     function getErrorProfile($user, $defaultUrl = 'https://placehold.co/400')

@@ -13,49 +13,36 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        // Create or update main educational categories
-        $science = Category::updateOrCreate(
-            ['name' => 'Science'],
-            ['name' => 'Science']
-        );
-        $arts = Category::updateOrCreate(
-            ['name' => 'Arts'],
-            ['name' => 'Arts']
-        );
-        $literature = Category::updateOrCreate(
-            ['name' => 'Literature'],
-            ['name' => 'Literature']
-        );
 
-        // Create or update subcategories for Science
-        Category::updateOrCreate(
-            ['name' => 'Physics', 'parent_id' => $science->id],
-            ['name' => 'Physics', 'parent_id' => $science->id]
-        );
-        Category::updateOrCreate(
-            ['name' => 'Chemistry', 'parent_id' => $science->id],
-            ['name' => 'Chemistry', 'parent_id' => $science->id]
-        );
+        $categories = [
+            'Quran',
+            'Hadith',
+            'Fiqh',
+            'Tafsir',
+            'Seerah',
+            'Aqidah',
+            'Dua & Dhikr',
+            'Islamic History',
+            'Halal & Haram',
+            'Islamic Ethics',
+            'Islamic Studies',
+            'Islamic Philosophy',
+            'Islamic Finance',
+            'Islamic Art',
+            'Islamic Culture',
+            'Islamic Science',
+            'Islamic Education',
+            'Islamic Literature',
+            'Islamic Poetry',
+            'Islamic Politics'
+        ];
 
-        // Create or update subcategories for Arts
-        Category::updateOrCreate(
-            ['name' => 'Painting', 'parent_id' => $arts->id],
-            ['name' => 'Painting', 'parent_id' => $arts->id]
-        );
-        Category::updateOrCreate(
-            ['name' => 'Music', 'parent_id' => $arts->id],
-            ['name' => 'Music', 'parent_id' => $arts->id]
-        );
-
-        // Create or update subcategories for Literature
-        Category::updateOrCreate(
-            ['name' => 'Poetry', 'parent_id' => $literature->id],
-            ['name' => 'Poetry', 'parent_id' => $literature->id]
-        );
-        Category::updateOrCreate(
-            ['name' => 'Novels', 'parent_id' => $literature->id],
-            ['name' => 'Novels', 'parent_id' => $literature->id]
-        );
+        foreach ($categories as $name) {
+            Category::updateOrCreate(
+                ['name' => $name],
+                ['name' => $name]
+            );
+        }
     }
 
 }

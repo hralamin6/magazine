@@ -5,9 +5,17 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\Web\HomeComponent::class)->name('web.home');
+Route::get('/post/{post:slug}', \App\Livewire\Web\PostDetailsComponent::class)->name('web.post.details');
+Route::get('/categories/{category:id?}', \App\Livewire\Web\CategoryWisePostComponent::class)->name('web.category.wise.post');
+Route::get('/tags/{tag:id?}', \App\Livewire\Web\TagWisePostComponent::class)->name('web.tag.wise.post');
+Route::get('/users/{user:id?}', \App\Livewire\Web\UserWisePostComponent::class)->name('web.user.wise.post');
+Route::get('/search', \App\Livewire\Web\SearchWisePostComponent::class)->name('web.search');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/posts', \App\Livewire\Web\PostCrudComponent::class)->name('web.post.crud');
+
+
     Route::get('app', \App\Livewire\App\DashboardComponent::class)->name('app.dashboard');
     Route::get('app/roles', \App\Livewire\App\RoleComponent::class)->name('app.roles');
     Route::get('app/backups', \App\Livewire\App\BackupComponent::class)->name('app.backups');
@@ -37,6 +45,37 @@ Route::post('/subscribe', function (Request $request) {
     return response()->json(['success' => true], 200);
 });
 
+
+
+// web.php
+Route::post('/subscribe-guest', function (Request $request) {
+    $request->validate([
+        'endpoint' => 'required',
+        'keys.auth' => 'required',
+        'keys.p256dh' => 'required',
+    ]);
+
+    \Minishlink\WebPush\Subscription::create([
+        'endpoint' => $request->endpoint,
+        'keys' => [
+            'p256dh' => $request->keys['p256dh'],
+            'auth' => $request->keys['auth'],
+        ],
+    ]);
+    \DB::table('guest_subscriptions')->updateOrInsert(
+        ['endpoint' => $request->endpoint],
+        [
+            'endpoint' => $request->endpoint,
+            'public_key' => $request->keys['p256dh'],
+            'auth_token' => $request->keys['auth'],
+//            'content_encoding' => 'aesgcm',
+        ]
+    );
+
+    return response()->json(['success' => true]);
+});
+
+
 Route::group(['as' => 'laravelpwa.'], function () {
     Route::get('/manifest.json', 'App\Http\Controllers\LaravelPWAController@manifestJson')
         ->name('manifest');
@@ -51,5 +90,3 @@ Route::get('cmd/{slug}', function ($slug = null) {
 
 
 Route::get('{slug}', \App\Livewire\Web\PageComponent::class)->name('web.page');
-
-

@@ -89,4 +89,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
             'password' => 'hashed',
         ];
     }
+     public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

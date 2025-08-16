@@ -14,6 +14,7 @@
         "laravel/framework": "^11.9",
         "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.9",
+        "league/commonmark": "^2.7",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "misterspelik/laravel-pdf": "^2.1",

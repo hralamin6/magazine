@@ -20,7 +20,9 @@ return new class extends Migration
             $table->text('content');  // Blog content
             $table->text('excerpt')->nullable();  // Blog excerpt/summary
             $table->json('tags')->nullable();  // Tags (stored as JSON)
+            $table->integer('views')->default(0);  // Tags (stored as JSON)
             $table->enum('status', ['draft', 'published'])->default('draft');  // Status (draft/published)
+            $table->enum('type', ['featured', 'normal', 'special'])->default('normal');  // Status (draft/published)
             $table->string('meta_title')->nullable();  // SEO: Meta title
             $table->string('meta_description')->nullable();  // SEO: Meta description
             $table->timestamp('published_at')->nullable();  // Publish date/time

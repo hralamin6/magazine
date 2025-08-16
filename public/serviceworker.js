@@ -52,7 +52,7 @@ self.addEventListener('push', event => {
         icon: data.icon || '/images/icons/icon-192x192.png',
         badge: data.icon || '/images/icons/icon-72x72.png',
         data: {
-            url: data.badge || '/app'
+            url: data.url || '/'
         }
     };
 
@@ -63,10 +63,17 @@ self.addEventListener('push', event => {
 
 // Handle notification clicks
 self.addEventListener('notificationclick', event => {
-    // event.notification.close();
-
-    const urlToOpen = event.notification.data && event.notification.data.url ? event.notification.data.url : '/';
+    const urlToOpen = event.notification.data?.url || '/';
     event.waitUntil(
-        clients.openWindow(urlToOpen)
-    );
-});
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+            if (windowClients.length > 0) {
+                // প্রথম tab কে use করে redirect
+                const client = windowClients[0];
+                client.navigate(urlToOpen); // navigate same tab
+                return client.focus();
+            } else {
+                // যদি কোনো tab না থাকে, নতুন tab open করা যাবে (optional)
+                return clients.openWindow(urlToOpen);
+            }
+        })
+    );});

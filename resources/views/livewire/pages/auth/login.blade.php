@@ -16,7 +16,7 @@ $login = function () {
 
     Session::regenerate();
 
-    $this->redirectIntended(default: route('app.dashboard', absolute: false), navigate: true);
+    $this->redirectIntended(default: route('web.home', absolute: false), navigate: true);
 };
 
 ?>

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +19,8 @@ class PostUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => $this->faker->sentence(8),
-            'user_id' => rand(1, 10),
-            'post_id' => rand(1, 50),
-            'status' => $this->faker->randomElement(['active', 'inactive']),
+            'user_id' => User::factory(),
+            'post_id' => Post::factory(),
         ];
     }
 }

@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostUser;
 use App\Models\Role;
+use App\Models\Tag;
+use App\Models\TagPost;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -35,25 +38,30 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('000000'),
             'role_id' => Role::where('slug', 'user')->first()->id
         ]);
+//        Tag::factory()->count(10)->create();
 
         // Create 5 parent categories
-        $parentCategories = Category::factory()->count(5)->create();
-
-        // Create 3 child categories for each parent category
-        $parentCategories->each(function ($parentCategory) {
-            Category::factory()->count(3)->childCategory($parentCategory->id)->create();
-        });
-
-        // Create 10 users
-        $users = User::factory()->count(10)->create();
+//        $parentCategories = Category::factory()->count(10)->create();
+        // create 10 using catergory seeder
+            $this->call(CategorySeeder::class);
+        // Create 10 users        // Create 10 users
+//        $users = User::factory()->count(10)->create();
 
         // For each user, create 10 posts with random child categories
-        $users->each(function ($user) {
-            Post::factory()->count(10)->create([
-                'user_id' => $user->id,
-                'category_id' => Category::whereNotNull('parent_id')->inRandomOrder()->first()->id, // Random child category
-            ]);
-        });
+//        $users->each(function ($user) {
+//            Post::factory()->count(10)->create([
+//                'user_id' => $user->id,
+//                'category_id' => Category::inRandomOrder()->first()->id, // Random child category
+//            ]);
+//        });
+
+//        Post::factory()->count(5)->create([
+//            'user_id' => User::inRandomOrder()->first()->id,
+//            'category_id' => Category::inRandomOrder()->first()->id, // Random child category
+//        ]);
+//        PostUser::factory()->count(30)->create();
+//        TagPost::factory()->count(30)->create();
+
     }
 
 

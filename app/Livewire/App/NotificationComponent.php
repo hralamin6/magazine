@@ -102,6 +102,6 @@ class NotificationComponent extends Component
         $notifications = $this->data->paginate(10);
 
 //        dd($notifications);
-        return view('livewire.app.notification-component', compact('notifications'));
+        return view('livewire.app.notification-component', compact('notifications'))->layout('components.layouts.web');
     }
 }

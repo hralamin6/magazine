@@ -25,6 +25,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraphs(3, true),
             'excerpt' => $this->faker->sentence,
             'tags' => json_encode($this->faker->words(3)),
+            'type' => $this->faker->randomElement(['featured', 'normal']),
             'status' => $this->faker->randomElement(['draft', 'published']),
             'meta_title' => $this->faker->sentence,
             'meta_description' => $this->faker->sentence,

@@ -2,16 +2,20 @@
 
 namespace App\Livewire\App;
 
+use App\Jobs\SendWebPushNotifications;
 use App\Models\Conversation;
 use App\Models\Setup;
 use App\Models\User;
 use App\Notifications\UserApproved;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use Minishlink\WebPush\Subscription;
+use Minishlink\WebPush\WebPush;
 use misterspelik\LaravelPdf\Facades\Pdf;
 
 class UserComponent extends Component
@@ -54,7 +58,7 @@ class UserComponent extends Component
     }
     public function changeStatus(User $user)
     {
-        $this->authorize('app.users.edit');
+                $this->authorize('app.users.edit');
 
         $user->status=='active'?$user->update(['status'=>'inactive']):$user->update(['status'=>'active']);
 

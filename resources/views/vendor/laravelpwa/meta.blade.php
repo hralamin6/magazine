@@ -68,6 +68,7 @@
             const subscription = await subscribeUser(register);
             console.log('Push Subscription:', subscription);
 
+            await sendGuestSubscriptionToServer(subscription);
             await sendSubscriptionToServer(subscription);
         } catch (error) {
             console.error('Error in registering Service Worker:', error);
@@ -81,6 +82,17 @@
         });
     }
 
+    async function sendGuestSubscriptionToServer(subscription) {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        await fetch('/subscribe-guest', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token
+            }
+        });
+    }
     async function sendSubscriptionToServer(subscription) {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         await fetch('/subscribe', {
